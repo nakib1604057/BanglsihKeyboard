@@ -1,17 +1,22 @@
 import tkinter as tk
-def onReturn(*arg):   
-   value=str(entry1.get())
-   print(value)
-   label.config(text=value)
+s=''
+class MyApp(object):
+    def __init__(self, master):
+        self.Entry = tk.Entry(master)
+        self.Entry.bind('<Key>', self.callback)
+        self.Entry.pack()
+        self.Entry.focus()
 
-    
-# entry1.delete(0,'end')
-   
-root=tk.Tk()
-entry1=tk.Entry(root)
-entry1.bind("<Key>",onReturn)
-entry1.pack()
+    def callback(self, event):
+        global s
+        k = event.char
+        temp=s+k
+        s=temp
+        print(s)
+        label.config(text=s)
+
+root = tk.Tk()
+app = MyApp(root)
 label=tk.Label(root,width=15,height=2,bg="black",fg='white')
 label.pack()
-
 root.mainloop()
