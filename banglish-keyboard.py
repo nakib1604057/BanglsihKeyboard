@@ -4,34 +4,45 @@ import operator
 all_word=[]
 s=''
 word=[]
+all_sug_word=[]
 bs=''
-
-
-
-with open("D:\python\Bangla_letters.txt",'r',encoding='utf-8') as f: 
+sug_word=[]
+with open("D:\python\sug_bar.txt",'r',encoding='utf-8') as a: 
+     #print("from fucntion{} ".format(arg))
+     r=a.read()
+     all_sug_word=r.split('\n')
+     print(all_sug_word)
+     
+with open("D:\python\Banglish1.txt",'r',encoding='utf-8') as f: 
      #print("from fucntion{} ".format(arg))
      r=f.read()
      all_word
      all_word=r.split('\n')
      print(all_word)
 
+
+
 def convertToBangla(arg,keyCode):
      global bs
      sp_word=[] 
      sp_input=[]
-     last_three='';
+     last_three=''
      a='   '
      if keyCode==32:
             bs=bs+a
-            print(bs)
-            bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-            bangla_box.place(rely=0.3,relwidth=1)
+            print(bs) 
+            bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+            bangla_box.grid(row=1,columnspan=15)
+            bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+            bangla_box.insert(tk.END,bs)
      elif keyCode==8:
             print('backspace')
             bs_l=len(bs)
             bs=bs[:bs_l-1]
-            bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-            bangla_box.place(rely=0.3,relwidth=1)
+            bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+            bangla_box.grid(row=1,columnspan=15)
+            bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+            bangla_box.insert(tk.END,bs)
      else:
         sp_input=arg.split(' ')
         sp_input_len=len(sp_input)
@@ -56,43 +67,92 @@ def convertToBangla(arg,keyCode):
           #print(type(arg1))
           #print(arg1)
           #print(bangla)
-          if last_three== arg1:
+          if last_three==arg1:
                 bs_l=len(bs)
                 temp_bs=bs[:bs_l-3]
                 #print(f'two word{temp_bs}')
                 bs=str(temp_bs+bangla)
-                bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-                bangla_box.place(rely=0.3,relwidth=1)
+                bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+                bangla_box.grid(row=1,columnspan=15)
+                bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+                bangla_box.insert(tk.END,bs)
+                break
           elif arg1==last_tl:
               if last_l=='a':
                 bs_l=len(bs)
-                temp_bs=bs[:bs_l-2]
+                temp_bs=bs[:bs_l-1]
                 #print(f'two word{temp_bs}')
                 bs=str(temp_bs+bangla)
-                bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-                bangla_box.place(rely=0.3,relwidth=1)
+                bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+                bangla_box.grid(row=1,columnspan=15)
+                bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+                bangla_box.insert(tk.END,bs)
+                break
               else:
                 bs_l=len(bs)
-                temp_bs=bs[:bs_l-2]
+                temp_bs=bs[:bs_l-1]
                 
                # print(f'two word{temp_bs}')
                 bs=str(temp_bs+bangla)
-                bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-                bangla_box.place(rely=0.3,relwidth=1)
+                bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+                bangla_box.grid(row=1,columnspan=15)
+                bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+                bangla_box.insert(tk.END,bs)
+                break
           elif arg1==last_l:
                 #print(bangla)
                 bs=bs+bangla
-                bangla_box=tk.Label(canvas,width=30,height=3,bg="steelblue",fg="white",font='Nirmala 24 bold',text=bs)
-                bangla_box.place(rely=0.3,relwidth=1)
+                bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+                bangla_box.grid(row=1,columnspan=15)
+                bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+                bangla_box.insert(tk.END,bs)
+                break
           else:
               pass
-
+        
+        #for jugeesstion bar
+        len_bs=len(bs)
+        split_bs=bs.split(' ')
+        split_len=len(split_bs)
+        last_word=split_bs[split_len-1]
+        #print('bangla ',bangla_box_value)
+        k=0
+        for i in all_sug_word:
+            if last_word in i:
+                sug_word.append(i)
+                #print('bangla',sug_word[k])
+                k=k+1
+        if k>0:
+          label1=tk.Button(canvas,bg='#7e7e7e',fg='white',text=sug_word[0],command=lambda: select_word(sug_word[0]))
+          label1.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.0)
+        
+          label2=tk.Button(canvas,bg='#7e7e7e',fg='white',text=sug_word[1],command=lambda: select_word(sug_word[1]))
+          label2.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.33)
+          label3=tk.Button(canvas,bg='#7e7e7e',fg='white',text=sug_word[2],command=lambda: select_word(sug_word[2]))
+          label3.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.67)
+        
+def select_word(arg):
+           global bs
+           len_bs=len(bs)
+           split_bs=bs.split(' ')
+           split_len=len(split_bs)
+           last_word=split_bs[split_len-1]
+           len_last_word=len(last_word)
+           bs=bs[:len_bs-len_last_word]
+           print(bs)
+           bs=bs+arg+' '
+           bangla_box = tk.Entry(canvas,width=50,font='Nirmala 12 bold')
+           bangla_box.grid(row=1,columnspan=15)
+           bangla_box.place(relheight=0.1,relwidth=1,rely=0.3)
+           bangla_box.insert(tk.END,bs)
+        
 class MyApp(object):
     def __init__(self, master):
         self.Entry = tk.Entry(master)
         self.Entry.bind('<Key>', self.callback)
-        self.Entry.place(relheight=0.2,relwidth=1,rely=0.8)
+        self.Entry.place(relheight=0.2,relwidth=1,rely=0.4)
         self.Entry.focus()
+      
 
     def callback(self, event):
         global s
@@ -103,31 +163,29 @@ class MyApp(object):
           temp=s+k
           s=str(temp)
           print(s)
-          label.config(text=s)
+          
           convertToBangla(s,keyCode)
           
         elif keyCode==8:
             slen=len(s)
             s=s[:slen-1]
             print(s)
-            label.config(text=s)
+           
             convertToBangla(s,keyCode)
             
         else:
             pass
-        
-        
 
 root = tk.Tk()
-canvas=tk.Frame(root,width=500,height=400)
+canvas=tk.Frame(root,width=300,height=300)
 canvas.pack()
 app = MyApp(canvas)
-label=tk.Label(canvas,bg='black',fg='white')
-label.place(relwidth=1,relheight=0.3,rely=0.5)
+label1=tk.Button(canvas,bg='#7e7e7e',fg='white',text='')
+label1.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.0)
+        
+label2=tk.Button(canvas,bg='#7e7e7e',fg='white',text='')
+label2.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.33)
+label3=tk.Button(canvas,bg='#7e7e7e',fg='white',text='')
+label3.place(relwidth=0.4,relheight=0.1,rely=0.1,relx=0.67)
 
 root.mainloop()
-
-
-
-         
-    
